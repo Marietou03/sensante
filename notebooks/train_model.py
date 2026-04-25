@@ -57,6 +57,8 @@ print(f"Nombre de features : {model.n_features_in_}")
 print(f"Classes : {list(model.classes_)}")
 
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Prédire sur les données de test
 y_pred = model.predict(X_test)
@@ -80,6 +82,22 @@ print(cm)
 # Rapport de classification
 print("\nRapport de classification :")
 print(classification_report(y_test, y_pred))
+
+# ===== 5.4 : VISUALISER LA MATRICE DE CONFUSION =====
+import os
+os.makedirs("figures", exist_ok=True)
+
+plt.figure(figsize=(8, 6))
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+            xticklabels=model.classes_,
+            yticklabels=model.classes_)
+plt.xlabel('Prédiction du modèle')
+plt.ylabel('Vrai diagnostic')
+plt.title('Matrice de confusion - SenSante')
+plt.tight_layout()
+plt.savefig('figures/confusion_matrix.png', dpi=150)
+plt.show()
+print("Figure sauvegardée dans figures/confusion_matrix.png")
 
 import joblib
 import os
